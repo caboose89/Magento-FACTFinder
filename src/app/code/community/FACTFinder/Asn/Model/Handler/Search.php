@@ -206,7 +206,12 @@ class FACTFinder_Asn_Model_Handler_Search extends FACTFinder_Core_Model_Handler_
     {
         $label = $option->getLabel();
         if ($filterGroup->getUnit()) {
-            $label .= ' ' . $filterGroup->getUnit();
+            //Nublue - Alex Rowe - 12/10/2016 - Added the below as the pound symbol always comes before the number
+            if(strpos($option->getFieldName(), "price") !== false){
+                $label =  preg_replace('/(£?)(\d+([\.,\d]){0,16}\d{2,4})/', $filterGroup->getUnit(). "$0", $label);
+            }else{
+                $label .= ' ' . $filterGroup->getUnit();
+            }
         }
 
         $option = array(
